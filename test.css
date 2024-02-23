@@ -131,17 +131,18 @@ body {
 
 @keyframes moveStar {
     from {
-        transform: translate3d(5000px, -1000px, 0)
+        transform: translate3d(2900px, -700px, -100px)
     }
     to {
-        transform: translate3d(-1000px, 600px, 1000px)
+        transform: translate3d(-900px, 300px, 100px)
         rotate(-30deg);
     }
 }
 
+
 /* Appliquer l'animation à l'étoile */
 .star {
-    animation: moveStar 17s linear infinite;
+    animation: moveStar 2s linear infinite;
     text-align: left;
 }
 

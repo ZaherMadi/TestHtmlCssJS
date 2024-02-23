@@ -1,7 +1,6 @@
 # Project Name
 
-There is no much things to read... it's my project for stuffs than i want to test.....
-
+Actually...It's not really a project...
 
 ## Table of Contents
 
