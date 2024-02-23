@@ -41,8 +41,22 @@ body {
     border: 1px solid #00dd;
 }
 
+@keyframes rotateCircle {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .circle circle{
 	fill: none;
     stroke-width: 1.1;
+    animation: rotateCircle 3s linear infinite; /* Animation pour faire tourner les cercles */
+    stroke-dasharray: 80; /* Longueur du trait */
+    /* transform-origin: center; Origine de la transformation */
+
 }
+
 
