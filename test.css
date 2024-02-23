@@ -144,3 +144,12 @@ body {
     animation: moveStar 17s linear infinite;
     text-align: left;
 }
+
+a{
+background: rgba(86, 86, 134, 0.867);
+width: 12vw;
+height: 6vh;
+border-radius: 5%;
+text-decoration: none;
+color: antiquewhite;
+text-align: center;}
