@@ -50,12 +50,28 @@ body {
     }
 }
 
-.circle circle{
+.circleSlow{
 	fill: none;
     stroke-width: 1.1;
-    animation: rotateCircle 3s linear infinite; /* Animation pour faire tourner les cercles */
-    stroke-dasharray: 80; /* Longueur du trait */
-    /* transform-origin: center; Origine de la transformation */
+    animation: rotateCircle 20s linear infinite; /* Animation pour faire tourner les cercles */
+    stroke-dasharray: 90; /* Longueur du trait */
+    transform-origin: center; Origine de la transformation
+
+}
+.circleMedium{
+	fill: none;
+    stroke-width: 1.1;
+    animation: rotateCircle 13s linear infinite; /* Animation pour faire tourner les cercles */
+    stroke-dasharray: 50; /* Longueur du trait */
+    transform-origin: center; Origine de la transformation
+}
+
+.circleFast{
+	fill: none;
+    stroke-width: 1.1;
+    animation: rotateCircle 4s linear infinite; /* Animation pour faire tourner les cercles */
+    stroke-dasharray: 70; /* Longueur du trait */
+    transform-origin: center; Origine de la transformation
 
 }
 
