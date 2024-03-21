@@ -129,6 +129,22 @@ body {
 
 }
 
+.circleEarthInverseMedium{
+    fill: none;
+    stroke-width: 1.1;
+    animation: rotateCircleInverse 30s linear infinite; /* Animation pour faire tourner les cercles */
+    stroke-dasharray: 50; /* Longueur du trait */
+    transform-origin: center; 
+}
+
+.circleEarthInverseSlow{
+    fill: none;
+    stroke-width: 1.1;
+    animation: rotateCircleInverse 20s linear infinite; /* Animation pour faire tourner les cercles */
+    stroke-dasharray: 90; /* Longueur du trait */
+    transform-origin: center; 
+}
+
 @keyframes moveStar {
     from {
         transform: translate3d(2900px, -700px, -100px)

@@ -25,7 +25,7 @@ nothing
 
 ## License
 
-yes , no it's a joke 
+hmmmmm.. private ? GNU ? nah.. i would think private license it's the good terms
 
 
 # Project Name

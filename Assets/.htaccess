@@ -1,0 +1,2107 @@
+
+## Section pour protéger le rep de démo quand on passe le site en demo.
+#AuthName "Page d'administration protégée"
+#AuthType Basic
+#AuthUserFile "/home/theatredxn/www/saison2018-19/.htpasswd"
+#Require valid-user
+## ne pas activer sur la PROD
+
+##
+# @package    Joomla
+# @copyright  Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
+# @license    GNU General Public License version 2 or later; see LICENSE.txt
+##
+
+##
+# READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
+#
+# The line 'Options +FollowSymLinks' may cause problems with some server configurations.
+# It is required for the use of mod_rewrite, but it may have already been set by your
+# server administrator in a way that disallows changing it in this .htaccess file.
+# If using it causes your site to produce an error, comment it out (add # to the
+# beginning of the line), reload your site in your browser and test your sef urls. If
+# they work, then it has been set by your server administrator and you do not need to
+# set it here.
+##
+
+## No directory listings
+<IfModule autoindex>
+    IndexIgnore *
+</IfModule>
+
+## Can be commented out if causes errors, see notes above.
+Options +FollowSymlinks
+Options -Indexes
+
+## Mod_rewrite in use.
+
+RewriteEngine On
+## Begin - Rewrite rules to block out some common exploits.
+# If you experience problems on your site then comment out the operations listed
+# below by adding a # to the beginning of the line.
+# This attempts to block the most common type of exploit `attempts` on Joomla!
+#
+# Block any script trying to base64_encode data within the URL.
+RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+# Block any script that includes a <script> tag in URL.
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+# Block any script trying to set a PHP GLOBALS variable via URL.
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+# Block any script trying to modify a _REQUEST variable via URL.
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+# Return 403 Forbidden header and show the content of the root home page
+RewriteRule .* index.php [F]
+#
+## End - Rewrite rules to block out some common exploits.
+
+# Redirect HTTP to HTTPS
+# AF le 10 juin 2021 : inutile car géré par le serveur laisser commente
+#RewriteCond %{SERVER_PORT} 80
+#RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+# redirect vide -> www.
+# modifier pour rediriger uniquement theatredegrasse.com et pas lesevadees.theatredegrasse.com
+RewriteCond %{HTTP_HOST} ^theatredegrasse\. [NC]
+RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+## Begin - Custom redirects
+
+## 301 Redirects
+# 301 Redirect 1
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2015/files/assets/flash/search/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 25
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2016/files/assets/common/page-substrates/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 26
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2016/files/assets/flash/image/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 27
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-25\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 28
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-30\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 29
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-44\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 30
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-45\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 31
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-48\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 32
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-49\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 33
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0008\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 34
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0012\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 35
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0020\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 36
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0021\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 37
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0023\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 38
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0026\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 39
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0028\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 40
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0032\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 41
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0036\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 42
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0039\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 43
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0048\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 44
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0049\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 45
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0052\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 46
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0064\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 47
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0065\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 48
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0068\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 49
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0070\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 50
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0072\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 51
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/common/page-substrates/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 52
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/assets/mobile/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 53
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/common/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 54
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^flipbook/2017/files/html/static/styles/css/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 55
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^images/Saison_16-17/butineur/Butineur_001_thtre-de-grasse\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 56
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^images/theatre/pdf/Formulaire_Abo_TDG_2013-14\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 57
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^images/theatre/pdf/MUSIQUE_SACREES_2014\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 58
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^images/theatre/pdf/TDG_Formulaire_Abonnement_14-15\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 59
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^images/theatre/pdf/TDG-prog_jeune_public-2013-14\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 60
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^option=com_content&task=blogsection&id=14&Itemid=123$ [NC]
+RewriteRule ^index\.php$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 61
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^option=com_content&task=view&id=31560&Itemid=132$ [NC]
+RewriteRule ^index\.php$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 62
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^tmpl=component&template=yoo_solar&link=0838f3ff8e266447559aafe4f36abf4e91694aec$ [NC]
+RewriteRule ^index\.php/component/mailto/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 63
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/arlequin-poli-par-l-amour-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 64
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/bataille-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 65
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/bigre-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 66
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/blast-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 67
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/bled-runner-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 68
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/carmen-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 69
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/carolyn-carlson-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 70
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/chants-populaires-de-mediterranee-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 71
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/christelle-chollet-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 72
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/croisades$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 73
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/deplaces-3$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 74
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/don-giovanni-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 75
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/dramaturgie-arabe-contemporaine$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 76
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/elektra-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 77
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/en-quete-de-notre-enfance-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 78
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/eugene-oneguine-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 79
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/festival-mediterraneen-babel-impro-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 80
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/french-keys-invite-madame-francoise-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 81
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/incroyable-mais-vrai-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 82
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/jamel-comedy-club-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 83
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/javais-un-beau-ballon-rouge$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 84
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/l-affrontement-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 85
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/l-amour-de-loin-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 86
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/la-cenerentola$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 87
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/la-fin-du-monde-est-pour-dimanche$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 88
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/la-traviata-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 89
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-4eme-souffle$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 90
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-carnaval-jazz-des-animaux-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 91
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-chevalier-a-la-rose-3$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 92
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-dernier-des-hommes-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 93
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-dernier-jour-du-jeune$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 94
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-mariage-de-figaro-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 95
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-porteur-histoire-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 96
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/le-sacrifice-de-daksha-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 97
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-amours-vulnerables-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 98
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-contes-d-hoffmann-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 99
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-desequilibristes-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 100
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-evenements-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 101
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-filles-aux-mains-jaunes-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 102
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-fourberies-de-scapin-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 103
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-noces-de-figaro-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 104
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/les-pecheurs-de-perles-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 105
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/linea-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 106
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/maitres-chanteurs-nuremberg-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 107
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/manon-lescaut-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 108
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/melange-2-temps-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 109
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/misa-criolla-misa-de-indios-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 110
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/misia-para-amalia-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 111
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/ne-moublie-pas$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 112
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/noces-de-sang-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 113
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/opus-15$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 114
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/oxmo-puccino-trio-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 115
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/pinocchio-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 116
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/quid-sit-musicus-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 117
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/raging-bull-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 118
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/scarlett-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 119
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/sembrasent$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 120
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/sublime-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 121
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/terre-eau-territoire$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 122
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/tete-haute$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 123
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/the-wackids-world-tour-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 124
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/theorie-des-prodiges-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 125
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/toute-petite-deja-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 126
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/tristan-et-isolde-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 127
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/turandot-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 128
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/tutu-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 129
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/un-fil-a-la-patte-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 130
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/une-heure-sept-centiemes-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 131
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/week-end-tchatche-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 132
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/component/zoo/item/welcome-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 133
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/cirque-arts-visuels/item/monsieur-mouche$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 134
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/danse/item/carmina-burana$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 135
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/danse/item/carolyn-carlson$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 136
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/danse/item/poetry-event$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 137
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/grasse-comedy-club/item/foudil-kaibou$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 138
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/grasse-comedy-club/item/la-maintenant-tout-de-suite-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 139
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/grasse-comedy-club/item/samia-orosemane$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 140
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/item/bigre-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 141
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/item/face-au-mur-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 142
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/item/illuminations$ https://theatredegrasse.com/la-lumiere? [R=301,NE,NC,L]
+
+# 301 Redirect 143
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/item/la-fin-du-monde-est-pour-dimanche$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 144
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/item/nenterrez-pas-trop-vite-big-brother$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 145
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/musique/item/barbara-furtuna$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 146
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/musique/item/charlie-chaplin-sa-vie-son-oeuvre-solo$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 147
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/musique/item/charlie-chaplin-sa-vie-son-oeuvre-trio$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 148
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/musique/item/kery-james$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 149
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/a-vif$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 150
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/ciel-mon-placard$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 151
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/darius$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 152
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/ivo-livi$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 153
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/john-et-joe$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 154
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/la-derniere-bande$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 155
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/le-portrait-de-dorian-gray$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 156
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/les-trois-mousquetaires$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 157
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^index\.php/saison/theatre/item/saison-18-19$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 158
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2015/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 159
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2015/files/assets/flash/sound/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 160
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2015/files/assets/mobile/textures/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 161
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2015/files/flash/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 162
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2015/files/flash/libs/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 163
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2016/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 164
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2016/files/flash/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 165
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-10\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 166
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-14\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 167
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-17\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 168
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-18\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 169
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-4\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 170
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-58\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 171
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-67\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 172
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-72\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 173
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-73\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 174
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/basic-html/page-74\.html$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 175
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 176
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0005\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 177
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0006\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 178
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0014\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 179
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0016\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 180
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0017\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 181
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0024\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 182
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0038\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 183
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0050\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 184
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0051\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 185
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0055\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 186
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0062\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 187
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0069\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 188
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0071\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 189
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/page0074\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 190
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/page-html5-substrates/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 191
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/flash/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 192
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/flash/pages/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 193
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/flash/search/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 194
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/html/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 195
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/html/locale/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 196
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/common/styles/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 197
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/flash/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 198
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/flash/libs/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 199
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/html/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 200
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/html/static/styles/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 236
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/Saison_15-16/Aide_a_l-achat_de_cartes_TDG_en_ligne\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 237
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/Saison_16-17/TDG_201617_web\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 238
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/Saison_17-18/Demande-autorisation-de-prelevement\.pdf$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 239
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/Saison_17-18/Formulaire_Carte_TDG_17_18\.pdf$ https://theatredegrasse.com/images/18-19/Bulletin_reservations_18-19.pdf? [R=301,NE,NC,L]
+
+# 301 Redirect 240
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/16-le-jeune-public$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 241
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/16-le-jeune-public/5-graines-de-spectateurs$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 242
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/16-le-jeune-public/6-le-theatre-mode-d-emploi$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 243
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/16-le-jeune-public/98-l-education-artistique-et-cultuelle$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 244
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/18-le-theatre$ https://theatredegrasse.com/la-salle? [R=301,NE,NC,L]
+
+# 301 Redirect 245
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/2-non-categorise/38-dans-votre-agenda$ https://theatredegrasse.com/dans-votre-agenda? [R=301,NE,NC,L]
+
+# 301 Redirect 246
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/2-non-categorise/39-espace-journaliste$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 247
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/20-contact$ http://www.forumsirius.fr/orion/grasse.phtml?fiche=newsletter [R=301,NE,NC,L]
+
+# 301 Redirect 248
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/22-technique$ https://theatredegrasse.com/le-projet?\#l-equipe [R=301,NE,NC,L]
+
+# 301 Redirect 249
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/49-projets/67-babel-impro-mediterranee$ https://theatredegrasse.com/le-projet? [R=301,NE,NC,L]
+
+# 301 Redirect 250
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/49-projets/97-projet-ouvert-la-nuit$ https://theatredegrasse.com/le-projet? [R=301,NE,NC,L]
+
+# 301 Redirect 251
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/50-nous-soutenir$ https://theatredegrasse.com/le-projet?\#soutenez-le-tdg [R=301,NE,NC,L]
+
+# 301 Redirect 252
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/9-actualites/119-formulaires-cartes-17-18$ https://theatredegrasse.com/images/18-19/Bulletin_reservations_18-19.pdf? [R=301,NE,NC,L]
+
+# 301 Redirect 253
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/9-actualites/120-decouvrez-le-teaser-de-la-saison-2017-2018$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 254
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/9-actualites/131-saison-18-19$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 255
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/9-actualites/74-archives$ https://theatredegrasse.com/archives? [R=301,NE,NC,L]
+
+# 301 Redirect 256
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/billetterie/achat-carte-tdg$ https://theatredegrasse.com/news/acheter-la-carte-tdg? [R=301,NE,NC,L]
+
+# 301 Redirect 257
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 258
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/category/17-le-mode-d-emploi$ https://theatredegrasse.com/pratique/un-lieu-pour-tous? [R=301,NE,NC,L]
+
+# 301 Redirect 259
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/category/2-non-categorise$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 260
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/category/20-contact$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 261
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/category/22-technique$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 262
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/category/49-projets$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 263
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/category/9-actualites$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 264
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/featured$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 265
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^id=featured&start=5$ [NC]
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/featured$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 266
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/wrapper/$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 267
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/category/humour-archive$ https://theatredegrasse.com/archives? [R=301,NE,NC,L]
+
+# 301 Redirect 268
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/category/theatre-archive/3$ https://theatredegrasse.com/archives? [R=301,NE,NC,L]
+
+# 301 Redirect 269
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/category/theatre-de-archive$ https://theatredegrasse.com/archives? [R=301,NE,NC,L]
+
+# 301 Redirect 270
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^Itemid=180$ [NC]
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/evenement-ouvert-la-nuit-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 271
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/grand-pere-n-aime-pas-le-swing-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 272
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/le-systeme-2$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 273
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^Itemid=180$ [NC]
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/petits-chocs-des-civilisations$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 274
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/covoiturage$ https://theatredegrasse.com/la-saison/theatre/saison-18-19-presentation? [R=301,NE,NC,L]
+
+# 301 Redirect 275
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/l-equipe$ https://theatredegrasse.com/projet?\#l-equipe [R=301,NE,NC,L]
+
+# 301 Redirect 276
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/la-salle$ https://theatredegrasse.com/la-salle? [R=301,NE,NC,L]
+
+# 301 Redirect 277
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/le-son$ https://theatredegrasse.com/le-son? [R=301,NE,NC,L]
+
+# 301 Redirect 278
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/nous-soutenir/club-mecenes-et-partenaires$ https://theatredegrasse.com/le-projet?\#club-des-mecenes [R=301,NE,NC,L]
+
+# 301 Redirect 279
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/nous-soutenir/faire-un-don$ https://theatredegrasse.com/le-projet?\#devenez-mecene [R=301,NE,NC,L]
+
+# 301 Redirect 280
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/nous-soutenir/faire-un-don/2-non-categorise/38-dans-votre-agenda$ https://theatredegrasse.com/le-projet?\#devenez-mecene [R=301,NE,NC,L]
+
+# 301 Redirect 281
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/arts-numeriques-archive$ https://theatredegrasse.com/archives? [R=301,NE,NC,L]
+
+# 301 Redirect 282
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/arts-visuels$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 283
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/cirque-archive$ https://theatredegrasse.com/archives? [R=301,NE,NC,L]
+
+# 301 Redirect 284
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/lectures$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 285
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/musique-archive$ https://theatredegrasse.com/archives? [R=301,NE,NC,L]
+
+# 301 Redirect 286
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/cirque-arts-visuels/category/en-temps-scolaire$ https://theatredegrasse.com/la-saison/cirque? [R=301,NE,NC,L]
+
+# 301 Redirect 287
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 288
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/ce-que-le-jour-doit-a-la-nuit$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 289
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/evenement-ouvert-la-nuit-2$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 290
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/hotel-paradiso-2$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 291
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/l-affrontement-2$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 292
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/la-grenouille-au-fond-du-puits-2$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 293
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/le-systeme-2$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 294
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/presentations-de-saison-17-19$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 295
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/qaddish$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 296
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/trop-de-guy-beart-tue-guy-beart-2$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 297
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/week-end-tchatche-2$ https://theatredegrasse.com/la-saison/danse? [R=301,NE,NC,L]
+
+# 301 Redirect 298
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/item/concerto-a-tempo-d-umore-2$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 299
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/item/misia-para-amalia-2$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 300
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/anna-sila-2$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 301
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/christelle-chollet-2$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 302
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/grupo-corpo-2$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 303
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/hansel-gretel$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 304
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/la-compagnie-des-spectres$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 305
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/notre-peur-de-n-etre-2$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 306
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/piccole-modifiche$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 307
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/race$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 308
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/rencontres-de-musiques-sacrees-du-monde$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 309
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/semianyki-express-2$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 310
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/vivre$ https://theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 311
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 312
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/category/theatre-de$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 313
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/bled-runner-2$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 314
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/braises-2$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 315
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/la-maison$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 316
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/livingstone-2$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 317
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/zigzag-2$ https://theatredegrasse.com/la-saison/theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 318
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/soutenez-le-tdg$ https://theatredegrasse.com/le-projet?\#soutenez-le-tdg [R=301,NE,NC,L]
+
+# 301 Redirect 319
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/une-saison-itinerante/adresses-des-lieux$ https://theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 320
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/visite-virtuelle$ https://theatredegrasse.com/visite-virtuelle? [R=301,NE,NC,L]
+
+# 301 Redirect 321
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/visitez-le-theatre$ https://theatredegrasse.com/visitez-le-theatre? [R=301,NE,NC,L]
+
+# 301 Redirect 322
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^s-abonner-au-theatre$ https://theatredegrasse.com/images/18-19/Bulletin_reservations_18-19.pdf? [R=301,NE,NC,L]
+
+## 301 Redirects
+# 301 Redirect 1
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^questions-pratiques$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 2
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/49-projets$ https://www.theatredegrasse.com/le-projet? [R=301,NE,NC,L]
+
+# 301 Redirect 3
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique$ https://www.theatredegrasse.com/la-saison/musique? [R=301,NE,NC,L]
+
+# 301 Redirect 4
+# ERROR duplicate source detected: https://www.theatredegrasse.com/index.php/49-projets
+# 301 Redirect 5
+# ERROR duplicate source detected: https://www.theatredegrasse.com/index.php/saison/musique
+# 301 Redirect 6
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/billetterie/tarifs$ https://www.theatredegrasse.com/billeterie? [R=301,NE,NC,L]
+
+# 301 Redirect 7
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^un-theatre-pour-tous$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 8
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/les-editos$ https://www.theatredegrasse.com/le-projet/les-editos? [R=301,NE,NC,L]
+
+# 301 Redirect 9
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$ [NC]
+RewriteCond %{HTTPS} =on
+RewriteRule ^projet$ https://www.theatredegrasse.com/le-projet?\#l-equipe [R=301,NE,NC,L]
+
+# 301 Redirect 10
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/bourse-d-echange$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 11
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/a-venir$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 12
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^visitez-le-theatre$ https://www.theatredegrasse.com/visite-virtuelle? [R=301,NE,NC,L]
+
+# 301 Redirect 13
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/grasse-comedy-club$ https://www.theatredegrasse.com/la-saison/humour? [R=301,NE,NC,L]
+
+# 301 Redirect 14
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/danse-archive$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 15
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/ensemble$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 16
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/51-bon-a-savoir$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 17
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/a-savoir/noubliez-pas$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 18
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/scaramuccia$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 19
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/kintsugi$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 20
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/cirque-arts-visuels$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 21
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/muo$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 22
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/arts-numeriques$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 23
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/billetterie/achat-sans-carte$ https://www.theatredegrasse.com/billeterie? [R=301,NE,NC,L]
+
+# 301 Redirect 24
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/category/humour$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 25
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/category/creation-archive$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 26
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/floating-flowers$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 27
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/the-wackids$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 28
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/fables-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 29
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/stories/partenaires/$ https://www.theatredegrasse.com/le-projet?\#club-des-mecenes [R=301,NE,NC,L]
+
+# 301 Redirect 30
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/terre-comuni$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 31
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/molly-bloom$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 32
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/richard-iii$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 33
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/going-home$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 34
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/category/theatre-archive$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 35
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/black-clouds$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 36
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/cartes-blanches$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 37
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 38
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/category/arts-visuels-archive$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 39
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/les-gens-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 40
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/en-1-clin-d-oeil$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 41
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/item/in-the-middle$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 42
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/une-saison-itinerante/navettes-et-bus$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 43
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/monsieur-mouche-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 44
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/rene-sarvil-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 45
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/lucrece-borgia-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 46
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/musique/item/concert-de-noel$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 47
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/fatoumata-diawara-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 48
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/king-lear-fragments$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 49
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/la-cantatrice-chauve$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 50
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/waly-dia-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 51
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/nous-soutenir/devenez-mecene-du-tdg$ https://www.theatredegrasse.com/le-projet?\#devenez-mecene [R=301,NE,NC,L]
+
+# 301 Redirect 52
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/a-bas-bruit$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 53
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/cirque-arts-visuels/item/solvo$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 54
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/une-carmen-en-turakie$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 55
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/rock-n-chair-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 56
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/category/festival-d-impro$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 57
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/cirque-arts-visuels/item/forever-happily$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 58
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/cannes-jeune-ballet-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 59
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/grasse-comedy-club/item/les-bonimenteurs$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 60
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/cirque-arts-visuels/item/canela-fina$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 61
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/cirque-arts-visuels/item/h-echos$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 62
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/ouvert-la-nuit-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 63
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/les-rois-vagabonds-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 64
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/baie-des-anges-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 65
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/histoire-radeau-meduse-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 66
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2015/files/assets$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 67
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/le-cercle-des-illusionnistes-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 68
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/danse/category/a-voir-en-famille$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 69
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/amstrong-jazz-dance-compagny-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 70
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/theatre/pdf/TDG_programme_JP_14-15\.pdf$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 71
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/Saison_17-18/TDG_17-18\.pdf$ https://www.theatredegrasse.com/flipbook/2017/? [R=301,NE,NC,L]
+
+# 301 Redirect 72
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/la-venus-a-la-fourrure-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 74
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/grasse-comedy-club/item/la-maintenant-tout-de-suite$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 75
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/theatre/item/monsieur-ibrahim-et-les-fleurs-du-coran$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 76
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/comedie-sur-un-quai-de-gare-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 77
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/l-equipe/2-non-categorise/38-dans-votre-agenda$ https://www.theatredegrasse.com/le-projet?\#l-equipe [R=301,NE,NC,L]
+
+# 301 Redirect 78
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/je-prefere-qu-on-reste-amis-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 79
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/pierre-et-le-loup-et-le-jazz-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 80
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2016/files/common/loader/$ https://www.theatredegrasse.com/flipbook/2016/? [R=301,NE,NC,L]
+
+# 301 Redirect 81
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/grasse-comedy-club/item/la-maintenant-tout-de-suite-3$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 82
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/la-nuit-ou-le-jour-s-est-leve-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 83
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/saison/grasse-comedy-club/item/le-tour-de-la-dette-en-80-minutes$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 85
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^images/Saison_16-17/Programme-Jeune-Public-2016-2017\.pdf$ https://www.theatredegrasse.com/flipbook/2016/? [R=301,NE,NC,L]
+
+# 301 Redirect 86
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^C=N;O=A$ [NC]
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2016/files/assets/flash/sound/$ https://www.theatredegrasse.com/flipbook/2016/? [R=301,NE,NC,L]
+
+# 301 Redirect 87
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/flash/sound/$ https://www.theatredegrasse.com/flipbook/2017/? [R=301,NE,NC,L]
+
+# 301 Redirect 88
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/train-fantome-2$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+# 301 Redirect 89
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/content/article/2-non-categorise/38-dans-votre-agenda$ https://www.theatredegrasse.com/la-saison? [R=301,NE,NC,L]
+
+## 301 Redirects
+# 301 Redirect 1
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/werther$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 2
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/piccole-modifiche$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 3
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2016/files/assets/$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 5
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^index\.php/component/zoo/item/concerto-a-tempo-d-umore-2$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 6
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2018/files/flash/libs/$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 7
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2018/files/assets/common/downloads/files/$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+# 301 Redirect 8
+RewriteCond %{HTTP_HOST} ^www\.theatredegrasse\.com$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteCond %{HTTPS} =on
+RewriteRule ^flipbook/2017/files/assets/common/downloads/mac/$ https://www.theatredegrasse.com/? [R=301,NE,NC,L]
+
+
+
+## End - Custom redirects
+
+##
+# Uncomment the following line if your webserver's URL
+# is not directly related to physical file paths.
+# Update Your Joomla! Directory (just / for root).
+##
+
+# RewriteBase /
+
+## Begin - Joomla! core SEF Section.
+#
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+#
+# If the requested path and file is not /index.php and the request
+# has not already been internally rewritten to the index.php script
+RewriteCond %{REQUEST_URI} !^/index\.php
+# and the requested path and file doesn't directly match a physical file
+RewriteCond %{REQUEST_FILENAME} !-f
+# and the requested path and file doesn't directly match a physical folder
+RewriteCond %{REQUEST_FILENAME} !-d
+# internally rewrite the request to the index.php script
+RewriteRule .* index.php [L]
+#
+## End - Joomla! core SEF Section.
+
+SetOutputFilter DEFLATE
+AddOutputFilterByType DEFLATE "application/atom+xml" "application/javascript" "application/json" "application/ld+json" "application/manifest+json" "application/rdf+xml" "application/rss+xml" "application/schema+json" "application/vnd.geo+json" "application/vnd.ms-fontobject" "application/x-font-ttf" "application/x-javascript" "application/x-web-app-manifest+json" "application/xhtml+xml" "application/xml" "font/eot" "font/opentype" "image/bmp" "image/svg+xml" "image/vnd.microsoft.icon" "image/x-icon" "text/cache-manifest" "text/css" "text/html" "text/javascript" "text/plain" "text/vcard" "text/vnd.rim.location.xloc" "text/vtt" "text/x-component" "text/x-cross-domain-policy" "text/xml"
